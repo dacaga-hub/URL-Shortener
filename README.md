@@ -1,16 +1,24 @@
 # URL Shortener
 
-Un acortador de URLs. Recibe una dirección larga, te devuelve un código corto. Después cuando alguien visita ese código corto, el programa lo redirige a la URL original.
-Hay que guardar la relación código <--> URL original.
+Acorta URLs largas a un código corto y redirige de vuelta al visitar ese código.
+Proyecto de aprendizaje de Spring Boot con foco en TDD y decisiones de diseño explícitas.
 
-## Entidad ShortUrl
-Forma de una fila en la base de datos, escrita como una clase Java. Tiene 3 campos: id (pk auto-increment), url(dirección original) y urlShort(código corto único y máximo 10ch). Hibernate lee la clase y crea la tabla short_url.
+## Stack
+- Java 21
+- Spring Boot 4.1 (Web, Data JPA, Validation)
+- H2 (base de datos en memoria)
+- Maven, JUnit 5
 
-## Cofiguración en application.properties
-La idea central es que Spring es declarativo, no se le dan ordenes paso a paso, se le pegan etiquetas (las anotaciones, @Entity, @Id...) y el framework las lee y hace el trabajo. Hay que describir que se quiere; Spring y Hibernate resuelven el cómo.
+## Ejecutar
+```bash
+./mvnw spring-boot:run    # arranca en http://localhost:8080
+./mvnw test               # ejecuta los tests
+```
 
-## Hibernate
-Traductor entre objetos Java en memoria y filas en una tabla SQL. Genera el esquema y el SQL a partir de la clase.
+## Decisiones de diseño
+- **Código corto vía Base62 desde el id**: Se usa Base62 sobre la ID secuencial por ser determinista, libre de colisiones y rápida de calcular. Una estrategia aleatoria requeriría comprobar colisiones en la base de datos a cada intento. Migraría a un código aleatorio si la secuencialidad permitiera adivinar URLs ajenas recorriendo los códigos (problema de enumeración / privacidad). Escenarios de generación de ids en sistemas distribuidos quedan fuera del alcance de este proyecto.
+- **GenerationType.IDENTITY**: Permite delegar la autogeneración de claves a la BD de forma sencilla, ideal para prototipos sin inserciones masivas, aunque deshabilita el batch insert en JPA.
 
-## La inyección/ generación automática:
-Se declaran contratos (una clase entidad y una interfaz repositorio) y Spring, al arrancar, los detecta, fabrica lo que falta y lo conecta todo solo. Por eso el repositorio va a ser una interfaz vacía que funciona.
+## Estado
+En desarrollo. Hecho: entidad, repositorio, encoder base62 (testeado).
+Pendiente: capa de servicio, controlador REST, redirección.
