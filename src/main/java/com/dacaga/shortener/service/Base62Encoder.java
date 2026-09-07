@@ -1,6 +1,8 @@
 package com.dacaga.shortener.service;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class Base62Encoder{
 
     private static final String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
