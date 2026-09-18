@@ -1,5 +1,9 @@
 package com.dacaga.shortener.dto;
 
-public record CreateShortUrlRequest(String url) {
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
+
+public record CreateShortUrlRequest(
+    @NotBlank @URL String url) {
 
 }
