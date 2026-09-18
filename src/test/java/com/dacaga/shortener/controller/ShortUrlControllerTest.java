@@ -48,4 +48,13 @@ class ShortUrlControllerTest {
                         .content("{\"url\": \"\"}"))
                     .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void createRejectsMalformedUrl() throws Exception{
+
+        mockMvc.perform(post("/api/urls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"url\": \"patata\"}"))
+                    .andExpect(status().isBadRequest());
+    }
 }
