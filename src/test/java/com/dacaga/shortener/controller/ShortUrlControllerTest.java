@@ -55,6 +55,7 @@ class ShortUrlControllerTest {
         mockMvc.perform(post("/api/urls")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"url\": \"patata\"}"))
-                    .andExpect(status().isBadRequest());
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.url").exists());
     }
 }
