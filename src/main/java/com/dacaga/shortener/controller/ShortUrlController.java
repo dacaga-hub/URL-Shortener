@@ -5,6 +5,8 @@ import com.dacaga.shortener.dto.CreateShortUrlRequest;
 import com.dacaga.shortener.dto.ShortUrlResponse;
 import com.dacaga.shortener.service.ShortUrlService;
 import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +20,7 @@ public class ShortUrlController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ShortUrlResponse create(@Valid @RequestBody CreateShortUrlRequest request){
         String url = request.url();
         ShortUrl shortUrl= service.create(url);
