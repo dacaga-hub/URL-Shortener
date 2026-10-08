@@ -10,7 +10,7 @@ public class ShortUrl {
 
     private Long id;
 
-    @Column(length = 2048)
+    @Column(nullable = false, length = 2048)
     private String url;
 
     @Column(unique = true, length = 10)
