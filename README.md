@@ -81,6 +81,11 @@ Suite de 14 tests en cuatro niveles:
 ## CI/CD
 Cada push y cada pull request ejecutan la suite completa en GitHub Actions. Si los tests pasan en `main`, se construye la imagen Docker y se publica en GitHub Container Registry con dos etiquetas: `latest` y el hash del commit.
 
+La imagen necesita un PostgreSQL. Para ejecutarla contra la base de datos del compose:
+
 ```bash
-docker pull ghcr.io/dacaga-hub/url-shortener:latest
+docker compose up -d db
+docker run --rm -p 8080:8080 --network shortener_default \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shortener \
+  ghcr.io/dacaga-hub/url-shortener:latest
 ```
