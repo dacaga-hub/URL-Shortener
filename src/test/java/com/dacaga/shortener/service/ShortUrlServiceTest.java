@@ -40,6 +40,6 @@ class ShortUrlServiceTest {
         assertEquals(savedEntity.getUrl(), result.getUrl());
         assertEquals("abc", result.getUrlShort());
         verify(encoder).encode(1L);
-        verify(repository, times(2)).save(any());
+        verify(repository).save(any());
     }
 }
